@@ -12,31 +12,31 @@ using namespace std;
 int* MakePearsonTable(int capacity = HASH_TABLE_SIZE) 
 {
     int* pearsonTable = new int[capacity];
-    srand(time(0)); 
+    srand(static_cast<unsigned>(time(0)));
 
-    for (int i = 0; i < capacity; ++i)
+    for (int i = 0; i < capacity; ++i) 
     {
         pearsonTable[i] = i;
     }
 
-    for (int i = 0; i < capacity; ++i) 
+    for (int i = capacity - 1; i > 0; --i)
     {
-        int j = rand() % capacity;
-        std::swap(pearsonTable[i], pearsonTable[j]);
+        int j = rand() % (i + 1);
+        swap(pearsonTable[i], pearsonTable[j]);
     }
     return pearsonTable;
 }
 
 
-int GetHashCode(HashTable& table, const string& key, int a = 31) 
+int GetHashCode(HashTable& table, const string& key, int baseNum = 31) 
 {
     int hash = 0;
 
     for (int i = 0; i < key.length(); i++) 
     {
         char ch = key[i];
-        int s_i = static_cast<int>(ch);
-        hash = (hash + s_i * static_cast<int>(pow(a, i))) % table.Capacity; 
+        int charValue = static_cast<int>(ch);
+        hash = (hash + charValue * static_cast<int>(pow(baseNum, i))) % table.Capacity; 
     }
 
     return table.PearsonTable[hash % table.Capacity];
@@ -80,20 +80,19 @@ void Rehash(HashTable* hashTable)
     delete[] oldPearsonTable;
 }
 
-
+//один мен€ющмйс€ key
 void Add(HashTable* hashTable, const string& key, const string& value) 
 {
     int index = GetHashCode(*hashTable, key);
     HashTableItem* current = hashTable->HashTable[index];
-    HashTableItem* previous = nullptr;
 
     while (current != nullptr) 
     {
-        if (current->Key == key && current->Value == value) 
+        if (current->Key == key) 
         {
+            current->Value = value;
             return;
         }
-        previous = current;
         current = current->Next;
     }
 
@@ -101,11 +100,39 @@ void Add(HashTable* hashTable, const string& key, const string& value)
     newItem->Next = hashTable->HashTable[index];
     hashTable->HashTable[index] = newItem;
     hashTable->CurrentSize++;
+
     if (static_cast<float>(hashTable->CurrentSize) / hashTable->Capacity > LOAD_FACTOR_THRESHOLD) 
     {
         Rehash(hashTable);
     }
 }
+
+//много разных key
+//void Add(HashTable* hashTable, const string& key, const string& value) 
+//{
+//    int index = GetHashCode(*hashTable, key);
+//    HashTableItem* current = hashTable->HashTable[index];
+//    HashTableItem* previous = nullptr;
+//
+//    while (current != nullptr) 
+//    {
+//        if (current->Key == key && current->Value == value) 
+//        {
+//            return;
+//        }
+//        previous = current;
+//        current = current->Next;
+//    }
+//
+//    HashTableItem* newItem = new HashTableItem(key, value);
+//    newItem->Next = hashTable->HashTable[index];
+//    hashTable->HashTable[index] = newItem;
+//    hashTable->CurrentSize++;
+//    if (static_cast<float>(hashTable->CurrentSize) / hashTable->Capacity > LOAD_FACTOR_THRESHOLD) 
+//    {
+//        Rehash(hashTable);
+//    }
+//}
 
 
 HashTable* CreateHashTable()
@@ -146,7 +173,7 @@ void DeleteItem(HashTable* hashTable, const string& key)
     int index = GetHashCode(*hashTable, key);
     HashTableItem* current = hashTable->HashTable[index];
     HashTableItem* previous = nullptr;
-
+     
     while (current != nullptr) 
     {
         if (current->Key == key)

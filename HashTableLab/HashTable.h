@@ -8,7 +8,7 @@
 struct HashTable
 {
     /* @brief Array of pointers to HashTableItem structures. */
-    HashTableItem* HashTable;
+    HashTableItem** HashTable;
     /* @brief Capacity of the hash table (number of buckets). */
     int Capacity;
     /* @brief Current number of items in the hash table. */

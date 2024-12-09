@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 
@@ -13,14 +14,16 @@ int GetIntInput(const string& prompt)
         cout << prompt;
         getline(cin, input);
 
+        if (input.empty() || !std::all_of(input.begin(), input.end(), ::isdigit))
+        {
+            cout << "Invalid input. Please enter an integer value.\n";
+            continue;
+        }
+
         try
         {
             value = stoi(input);
             return value;
-        }
-        catch (const invalid_argument& e)
-        {
-            cout << "Invalid input. Please enter an integer value.\n";
         }
         catch (const out_of_range& e)
         {
@@ -28,7 +31,6 @@ int GetIntInput(const string& prompt)
         }
     }
 }
-
 string GetStringInput(const string& prompt)
 {
     string input;
