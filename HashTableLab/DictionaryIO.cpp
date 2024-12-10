@@ -39,8 +39,8 @@ void PrintDictionary(const Dictionary* dictionary)
 
 void DictionaryChoice(Dictionary* dictionary)
 {
-    bool running = true;
-    while (running)
+
+    while (true)
     {
         ClearScreen();
         ShowDictionaryMenu();
@@ -82,8 +82,7 @@ void DictionaryChoice(Dictionary* dictionary)
             {
                 ClearScreen();
                 ShowMainMenu();
-                running = false;
-                break;
+                return;
             }
 
         default:

@@ -31,6 +31,7 @@ int GetIntInput(const string& prompt)
         }
     }
 }
+
 string GetStringInput(const string& prompt)
 {
     string input;

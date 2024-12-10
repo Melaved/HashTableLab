@@ -15,8 +15,8 @@ struct HashTableItem
     HashTableItem* Next;
     /*
      * @brief Constructor for HashTableItem.
-     * @param k The key for the item.
-     * @param v The value for the item.
+     * @param key The key for the item.
+     * @param vakue The value for the item.
      */
-    HashTableItem(const string& k, const string& v) : Key(k), Value(v), Next(nullptr) {};
+    HashTableItem(const string& key, const string& value) : Key(key), Value(value), Next(nullptr) {};
 };

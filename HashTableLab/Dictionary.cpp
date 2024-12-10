@@ -15,7 +15,28 @@ Dictionary* CreateDictionary()
 
 void Insert(Dictionary* dictionary, const string& key, const string& value)
 {
-    Add(dictionary->HashTable, key, value);
+    int index = GetHashCode(*dictionary->HashTable, key);
+    HashTableItem* current = dictionary->HashTable->HashTable[index];
+
+    while (current != nullptr)
+    {
+        if (current->Key == key)
+        {
+            current->Value = value;
+            return;
+        }
+        current = current->Next;
+    }
+
+    HashTableItem* newItem = new HashTableItem(key, value);
+    newItem->Next = dictionary->HashTable->HashTable[index];
+    dictionary->HashTable->HashTable[index] = newItem;
+    dictionary->HashTable->CurrentSize++;
+
+    if (static_cast<float>(dictionary->HashTable->CurrentSize) / dictionary->HashTable->Capacity > LOAD_FACTOR_THRESHOLD)
+    {
+        Rehash(dictionary->HashTable);
+    }
 }
 
 string Find(Dictionary* dictionary, const string& key) 

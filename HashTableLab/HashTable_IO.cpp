@@ -39,8 +39,7 @@ void PrintHashTable(HashTable* hashTable)
 
 void HashTableChoice(HashTable* hashTable) 
 {
-    bool running = true;
-    while (running)
+    while (true)
     {
         ClearScreen();
         ShowHashTableMenu();
@@ -67,7 +66,7 @@ void HashTableChoice(HashTable* hashTable)
                 }
                 else 
                 {
-                    cout << "Value(s) for key '" << key << "': " << value << endl;
+                    cout << "Value(s) for key '" << key << "': " << value <<", "<< endl;
                 }
                 break;
             }
@@ -81,9 +80,8 @@ void HashTableChoice(HashTable* hashTable)
             case 0:
             {
                 ClearScreen();
-                ShowMainMenu();
-                running = false;
-                break;
+                ShowMainMenu();                
+                return ;
             }
 
         default:

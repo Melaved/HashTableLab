@@ -7,8 +7,10 @@
  */
 struct Dictionary
 {
+	/* @brief Pointer to the underlying hash table used for storing key-value pairs. */
 	HashTable* HashTable;
 };
+
 
 /*
  * @brief Creates a new dictionary.

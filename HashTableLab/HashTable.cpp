@@ -1,8 +1,5 @@
 #include <iostream>
-#include <string>
-#include <vector>
-#include <cstdlib> 
-#include <ctime>   
+#include <string>   
 #include <cmath>  
 #include <algorithm> 
 #include "HashTable.h"
@@ -28,7 +25,7 @@ int* MakePearsonTable(int capacity = HASH_TABLE_SIZE)
 }
 
 
-int GetHashCode(HashTable& table, const string& key, int baseNum = 31) 
+int GetHashCode(HashTable& table, const string& key, int baseNum) 
 {
     int hash = 0;
 
@@ -80,19 +77,19 @@ void Rehash(HashTable* hashTable)
     delete[] oldPearsonTable;
 }
 
-//один мен€ющмйс€ key
 void Add(HashTable* hashTable, const string& key, const string& value) 
 {
     int index = GetHashCode(*hashTable, key);
     HashTableItem* current = hashTable->HashTable[index];
+    HashTableItem* previous = nullptr;
 
     while (current != nullptr) 
     {
-        if (current->Key == key) 
+        if (current->Key == key && current->Value == value) 
         {
-            current->Value = value;
             return;
         }
+        previous = current;
         current = current->Next;
     }
 
@@ -100,39 +97,11 @@ void Add(HashTable* hashTable, const string& key, const string& value)
     newItem->Next = hashTable->HashTable[index];
     hashTable->HashTable[index] = newItem;
     hashTable->CurrentSize++;
-
     if (static_cast<float>(hashTable->CurrentSize) / hashTable->Capacity > LOAD_FACTOR_THRESHOLD) 
     {
         Rehash(hashTable);
     }
 }
-
-//много разных key
-//void Add(HashTable* hashTable, const string& key, const string& value) 
-//{
-//    int index = GetHashCode(*hashTable, key);
-//    HashTableItem* current = hashTable->HashTable[index];
-//    HashTableItem* previous = nullptr;
-//
-//    while (current != nullptr) 
-//    {
-//        if (current->Key == key && current->Value == value) 
-//        {
-//            return;
-//        }
-//        previous = current;
-//        current = current->Next;
-//    }
-//
-//    HashTableItem* newItem = new HashTableItem(key, value);
-//    newItem->Next = hashTable->HashTable[index];
-//    hashTable->HashTable[index] = newItem;
-//    hashTable->CurrentSize++;
-//    if (static_cast<float>(hashTable->CurrentSize) / hashTable->Capacity > LOAD_FACTOR_THRESHOLD) 
-//    {
-//        Rehash(hashTable);
-//    }
-//}
 
 
 HashTable* CreateHashTable()
@@ -155,12 +124,15 @@ string Search(HashTable& hashTable, const string& key)
 {
     int index = GetHashCode(hashTable, key);
     HashTableItem* current = hashTable.HashTable[index];
-    std::string result = "";
+    string result = "";
     while (current != nullptr)
     {
         if (current->Key == key) 
         {
-            if (!result.empty()) result += ", ";
+            if (!result.empty())
+            {
+                result;
+            }
             result += current->Value;
         }
         current = current->Next;

@@ -42,7 +42,7 @@ int* MakePearsonTable(int capacity);
  * @param baseNum Base number for Pearson hashing.
  * @return The calculated hash code.
  */
-int GetHashCode(HashTable& hashTable, const std::string& key, int baseNum);
+int GetHashCode(HashTable& hashTable, const std::string& key, int baseNum = 31);
 
 /*
  * @brief Creates a new hash table.

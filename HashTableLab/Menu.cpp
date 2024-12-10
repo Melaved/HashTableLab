@@ -17,9 +17,8 @@ void Menu()
 {
     HashTable* hashTable = CreateHashTable();
     Dictionary* dictionary = CreateDictionary();
-    bool running = true;
 
-    while (running)
+    while (true)
     {
         ClearScreen();
         ShowMainMenu();
@@ -29,25 +28,24 @@ void Menu()
         switch (choice)
         {
 
-        case 1:
-        {
+            case 1:
+            {
 
-            DictionaryChoice(dictionary);
-            break;
-        }
+                DictionaryChoice(dictionary);
+                break;
+            }
 
-        case 2:
-        {
+            case 2:
+            {
 
-            HashTableChoice(hashTable);
-            break;
-        }
+                HashTableChoice(hashTable);
+                break;
+            }
 
-        case 0:
-            DeleteHashTable(hashTable);
-            DeleteDictionary(dictionary);
-            running = false;
-            return ;
+            case 0:
+                DeleteHashTable(hashTable);
+                DeleteDictionary(dictionary);
+                return ;
         default:
             cout << "Invalid choice! Try again." << endl;
         }
