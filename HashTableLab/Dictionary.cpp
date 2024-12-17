@@ -1,10 +1,6 @@
 #include "HashTable.h"
 #include "HashTableItem.h"
-
-struct Dictionary 
-{
-	HashTable* HashTable;
-};
+#include "Dictionary.h"
 
 Dictionary* CreateDictionary()
 {
